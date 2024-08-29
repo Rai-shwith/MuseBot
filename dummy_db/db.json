@@ -37,9 +37,67 @@
       "event_date": "2024-08-16T14:00:00"
     }
   ],
+  "museums":[
+    {
+        "museum_id": 1,
+        "name": "The National Museum",
+        "location": "New Delhi, India",
+        "description": "The National Museum of India is one of the largest museums in India, showcasing a vast range of artifacts, artworks, and historical objects.",
+        "established_year": 1949,
+        "opening_hours": "10:00 AM - 5:00 PM",
+        "website": "https://www.nationalmuseumindia.gov.in"
+    },
+    {
+        "museum_id": 2,
+        "name": "The Indian Museum",
+        "location": "Kolkata, West Bengal, India",
+        "description": "The Indian Museum is the oldest and largest museum in India, with extensive collections in art, archaeology, and natural history.",
+        "established_year": 1814,
+        "opening_hours": "10:00 AM - 5:00 PM",
+        "website": "http://indianmuseumkolkata.org"
+    },
+    {
+        "museum_id": 3,
+        "name": "Chhatrapati Shivaji Maharaj Vastu Sangrahalaya",
+        "location": "Mumbai, Maharashtra, India",
+        "description": "Formerly known as the Prince of Wales Museum, it houses a wide array of artifacts from various cultures, including art, sculpture, and textiles.",
+        "established_year": 1922,
+        "opening_hours": "10:15 AM - 6:00 PM",
+        "website": "http://csmvs.in"
+    },
+    {
+        "museum_id": 4,
+        "name": "Raja Dinkar Kelkar Museum",
+        "location": "Pune, Maharashtra, India",
+        "description": "This museum displays a collection of over 20,000 artifacts, including traditional Indian arts, crafts, and antique objects.",
+        "established_year": 1962,
+        "opening_hours": "9:30 AM - 5:30 PM",
+        "website": "https://www.rdkm.org"
+    },
+    {
+        "museum_id": 5,
+        "name": "The Salar Jung Museum",
+        "location": "Hyderabad, Telangana, India",
+        "description": "One of the largest art museums in India, featuring an extensive collection of art, artifacts, and antiques from around the world.",
+        "established_year": 1951,
+        "opening_hours": "10:00 AM - 5:00 PM",
+        "website": "http://salarjungmuseum.in"
+    },
+    {
+        "museum_id": 6,
+        "name": "National Gallery of Modern Art",
+        "location": "New Delhi, India",
+        "description": "This museum showcases modern and contemporary Indian art, with a focus on paintings, sculptures, and other art forms from the 19th century onward.",
+        "established_year": 1954,
+        "opening_hours": "10:00 AM - 5:00 PM",
+        "website": "http://ngmaindia.gov.in"
+    }
+]
+,
   "exhibits": [
     {
       "exhibit_id": 201,
+      "museum_id":1,
       "name": "Ancient Egypt",
       "description": "A deep dive into the fascinating world of Ancient Egypt.",
       "location": "Gallery 1, Ground Floor",
@@ -48,6 +106,7 @@
     },
     {
       "exhibit_id": 202,
+      "museum_id":1,
       "name": "Dinosaurs Unleashed",
       "description": "Explore the prehistoric era with life-sized dinosaur models.",
       "location": "Gallery 2, First Floor",
@@ -62,7 +121,8 @@
       "description": "A documentary on the lives of Pharaohs.",
       "show_time": "2024-08-15T11:00:00",
       "duration": "1h 30m",
-      "exhibit_id": 201
+      "exhibit_id": 201,
+      "museum_id":1
     },
     {
       "show_id": 302,
@@ -70,7 +130,8 @@
       "description": "A thrilling journey through the Jurassic period.",
       "show_time": "2024-08-16T15:30:00",
       "duration": "2h 00m",
-      "exhibit_id": 202
+      "exhibit_id": 202,
+      "museum_id":1
     }
   ],
   "payments": [
