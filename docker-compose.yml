@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ashwith_user
+      POSTGRES_PASSWORD: ashwith_password
+      POSTGRES_DB: musebot_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # ports:
+    #  - "5173:5432"  # Bind PostgreSQL's internal 5432 port to host port 5173
+    restart: always
+
+  fastapi:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.fastapi
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgres://ashwith_user:ashwith_password@postgres/musebot_db
+    depends_on:
+      - postgres
+      - rasa
+    volumes:
+      - ./app:/app  # Mount local FastAPI project directory
+    restart: always
+
+  rasa:
+    build:
+      context: ./rasa
+      dockerfile: Dockerfile.rasa
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa:/app  # Mount local Rasa project directory
+    depends_on:
+      - rasa_sdk
+    restart: always
+
+  rasa_sdk:
+    build:
+      context: ./rasa_sdk
+      dockerfile: Dockerfile.rasa_sdk
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./rasa_sdk:/app  # Mount local Rasa SDK directory
+    restart: always
+
+volumes:
+  postgres_data:
