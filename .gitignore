@@ -2,3 +2,17 @@
 .env
 notes.txt
 **/__pycache__
+
+rasa/credentials.yml
+rasa/endpoints.yml
+rasa/.config
+rasa/.keras
+rasa/.rasa
+*.tar.gz
+*.log
+*.lock
+*.db
+*.sqlite
+
+rasa/models/
+.vscode/
