@@ -1,0 +1,14 @@
+# Base image for Rasa
+FROM rasa/rasa:latest
+
+# Set work directory
+WORKDIR /app
+
+# Copy project files into the container
+COPY . /app
+
+# Expose Rasa port
+EXPOSE 5005
+
+# Command to run the Rasa server
+CMD ["rasa", "run", "--model", "/app/models", "--enable-api", "--cors", "*"]
