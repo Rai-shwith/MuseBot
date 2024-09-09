@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This file is just for Docker purpose don't touch this
 set -Eeuo pipefail
 
 function print_help {
