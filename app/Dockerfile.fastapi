@@ -1,25 +1,36 @@
 # Use the official Python image for FastAPI
 FROM python:3.10-slim
 
+# Temporarily switch to root to add group and user
+USER root
+
 # Set work directory
 WORKDIR /app
 
-# Install required system dependencies
-RUN apt-get update && apt-get install -y libpq-dev gcc
+# Install required system dependencies and clean up
+RUN apt-get update && \
+    apt-get install -y libpq-dev gcc && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy requirements file
-COPY ./requirements.txt .
+# Create the group and user
+RUN groupadd -g 1000 musebot_group && \
+    useradd -u 1000 -g musebot_group -m musebot_user
 
-# Install dependencies
+# Copy requirements file and install dependencies
+COPY --chown=musebot_user:musebot_group ./requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the entire FastAPI project into the container
-COPY . /app
+COPY --chown=musebot_user:musebot_group . .
+
+# Switch to the new user
+USER musebot_user
+
+ENV PYTHONPATH=/app
 
 # Expose FastAPI port
 EXPOSE 8000
 
-ENTRYPOINT ["/bin/sh", "-c"]
-
-# Run FastAPI app with uvicorn
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Command to run the application
+CMD [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload" ]

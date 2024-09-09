@@ -1,14 +1,24 @@
-# Base image for Rasa
+# Use the official Rasa image
 FROM rasa/rasa:latest
 
-# Set work directory
+# Temporarily switch to root to add group and user
+USER root
+
+# Create the group and user
+RUN groupadd -g 1000 musebot_group && \
+    useradd -u 1000 -g musebot_group -m musebot_user
+
+# Set the working directory
 WORKDIR /app
 
-# Copy project files into the container
-COPY . /app
 
-# Expose Rasa port
+
+# Install additional Rasa dependencies if needed
+# Uncomment if you have additional dependencies
+# RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Expose the necessary port
 EXPOSE 5005
 
-# Command to run the Rasa server
-CMD ["rasa", "run", "--model", "/app/models", "--enable-api", "--cors", "*"]
+# Run Rasa server
+CMD [ "run", "--enable-api", "--cors", "*" ,"--debug"]

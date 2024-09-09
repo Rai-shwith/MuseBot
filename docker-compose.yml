@@ -1,9 +1,10 @@
 services:
   postgres:
     image: postgres:latest
+    # user: "1000:1000"  # Match your host user and group
     environment:
-      POSTGRES_USER: ashwith_user
-      POSTGRES_PASSWORD: ashwith_password
+      POSTGRES_USER: musebot_admin
+      POSTGRES_PASSWORD: musebot_2024
       POSTGRES_DB: musebot_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -12,6 +13,7 @@ services:
     restart: always
 
   fastapi:
+    user: "1000:1000"  # Match your host user and group
     build:
       context: ./app
       dockerfile: Dockerfile.fastapi
@@ -19,20 +21,22 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgres://ashwith_user:ashwith_password@postgres/musebot_db
+      DATABASE_URL: postgresql://musebot_admin:musebot_2024@postgres/musebot_db
     depends_on:
       - postgres
-      - rasa
+      # - rasa
     volumes:
       - ./app:/app  # Mount local FastAPI project directory
     restart: always
 
   rasa:
+    user: "1000:1000"  # Match your host user and group
     build:
       context: ./rasa
       dockerfile: Dockerfile.rasa
     ports:
       - "5005:5005"
+    # command: 
     volumes:
       - ./rasa:/app  # Mount local Rasa project directory
     depends_on:
@@ -40,13 +44,14 @@ services:
     restart: always
 
   rasa_sdk:
+    user: "1000:1000"  # Match your host user and group
     build:
-      context: ./rasa_sdk
+      context: ./rasa
       dockerfile: Dockerfile.rasa_sdk
     ports:
       - "5055:5055"
     volumes:
-      - ./rasa_sdk:/app  # Mount local Rasa SDK directory
+      - ./rasa:/app
     restart: always
 
 volumes:
