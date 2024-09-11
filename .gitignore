@@ -16,3 +16,5 @@ rasa/.rasa
 
 rasa/models/
 .vscode/
+
+**.bash_history
