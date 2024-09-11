@@ -1,82 +1,152 @@
-# SMART INDIA HACKATHON 2024
+# Musbot Project
+Welcome to the Musbot project! This README will guide you through setting up and running the Musbot application using Docker. This project uses multiple containers for a seamless integration of FastAPI, Rasa, Rasa SDK, and PostgreSQL.
 
-**Problem Statement ID**: 1648  
-**Problem Statement Title**: Online Chatbot-Based Ticketing System  
-**Theme**: Travel & Tourism  
-**PS Category**: Software  
-**Team ID**: [Team ID]  
-**Team Name**: [Registered Team Name]
+## Overview
+Musbot is a chatbot application that leverages FastAPI for backend operations, Rasa for chatbot functionalities, and PostgreSQL for data storage. Docker is used to containerize each component for easy setup and deployment.
 
----
+## Prerequisites
+Before you begin, ensure you have the following installed:
 
-## IDEA TITLE: MuseBot - The Multilingual Chatbot Ticketing System
+- Docker: Required to build and run the containers.
+- Docker Compose: Manages multi-container Docker applications.
+## Getting Started
+### 1. Clone the Repository
+First, clone the Musbot repository from GitHub:
 
-### Proposed Solution
+```bash
+git clone https://github.com/your-username/musbot.git
+cd musbot
+```
+### 2. Build and Start Containers
+Navigate to the project directory and use Docker Compose to build and start the containers:
 
-- **Detailed Explanation of the Proposed Solution**:  
-  MuseBot is a multilingual chatbot designed to streamline ticket bookings and manage user interactions. It integrates FastAPI for backend operations, SQLAlchemy for database management, and Alembic for database migrations. Razorpay handles payment processing, with a dropdown menu for language selection. A QR code feature allows users to quickly access information about exhibitions or shows by scanning the code, after which they can log in, select ticket details, and proceed to payment. The website is fully responsive, ensuring usability on mobile devices.
+```bash
+docker-compose up --build
+```
+This command will:
+- Build the Docker images for FastAPI, Rasa, and Rasa SDK.
+- Start the PostgreSQL, FastAPI, Rasa, and Rasa SDK containers.
 
-- **How It Addresses the Problem**:  
-  MuseBot simplifies the booking process by providing a user-friendly interface with multilingual support and a QR code feature for quick access to information. It automates customer interactions and integrates payment processing, reducing operational costs and errors.
+## 3. Running Individual Containers
+If you only want to run a specific container, such as FastAPI or Rasa, you can do so with the following commands:
 
-- **Innovation and Uniqueness of the Solution**:  
-  The use of FastAPI with distinct endpoints for each conversation optimizes performance. The QR code feature enhances user experience by providing quick and easy access to specific exhibition or show details. The language selection dropdown menu, combined with future scalability options, adds further innovation.
+- FastAPI:
 
----
+    ```bash
+    docker-compose up fastapi
+    ```
 
-## TECHNICAL APPROACH
+- Rasa:
+    ```bash
+    docker-compose up rasa
+    ```
 
-- **Technologies to be Used**:  
-  - **Programming Languages**: Python (for backend), JavaScript (for frontend)
-  - **Frameworks**: FastAPI
-  - **Database**: SQLAlchemy (for ORM), Alembic (for migrations), CockroachDB (free tier for data handling)
-  - **Payment Gateway**: Razorpay (charges 2% for domestic transactions, 1.5-3% for international transactions)
-  - **Multilingual Support**: Google Translate API via third-party CDN, with potential future transition to dedicated models like Rasa
-  - **QR Code Integration**: QR codes for quick access to chatbot with specific exhibition or show information
+- Rasa SDK:
+    ```bash
+    docker-compose up rasa_sdk
+    ```
 
-- **Methodology and Process for Implementation**:  
-  - **Flow Charts/Images**: Include visual representations of the chatbot interactions, language selection process, QR code scanning, and backend operations.
-  - **Working Prototype**: Show Figma prototypes of the chatbot interface, including language dropdown, QR code scanning, and booking process. Demonstrate website responsiveness on mobile devices.
+- PostgreSQL:
+    ```bash
+    docker-compose up postgres
+    ```
 
----
+This will only start the container you secify. All the other containers will remain stopped unless started manually.
 
-## FEASIBILITY AND VIABILITY
+### 3. Accessing the Services
+Once the containers are up and running, you can access the services as follows:
 
-- **Analysis of the Feasibility of the Idea**:  
-  The solution is feasible with the current technologies and tools. FastAPI and SQLAlchemy are well-suited for scalable backend operations, while Razorpay and Google Translate API are effective for payment and multilingual support. The QR code feature adds convenience, and the responsive design ensures accessibility across devices.
+- FastAPI: http://localhost:8000
+- Rasa: http://localhost:5005
+- Rasa SDK: http://localhost:5055
+- PostgreSQL: The database runs internally and is not exposed via a port. You can interact with it using database tools or directly from the FastAPI application.
 
-- **Potential Challenges and Risks**:  
-  - Integration issues with Razorpay and Google Translate API
-  - Ensuring reliability of the third-party Google Translate API
-  - Managing performance with multiple endpoints in FastAPI
-  - Ensuring reliable QR code scanning across different devices
+### 4. Stopping the Containers
+To stop the containers, press Ctrl + C in the terminal where Docker Compose is running. To remove the containers, use:
 
-- **Strategies for Overcoming These Challenges**:  
-  - Conduct thorough testing of integrations
-  - Monitor and evaluate the reliability of the Google Translate API
-  - Optimize FastAPI endpoints to manage performance and scalability
-  - Test QR code functionality across various devices and environments
+```bash
+docker-compose down
+```
 
----
+## Project Structure
+Here’s an overview of the project structure:
 
-## IMPACT AND BENEFITS
+```markdown
+musbot/
+├── README.md
+├── app/
+│   ├── Dockerfile.fastapi
+│   ├── __init__.py
+│   ├── __pycache__/
+│   │   └── main.cpython-310.pyc
+│   ├── config.py
+│   ├── database.py
+│   ├── main.py
+│   ├── models.py
+│   ├── requirements.txt
+│   ├── schemas.py
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── style.css
+│   │   ├── images/
+│   │   └── js/
+│   │       └── script.js
+│   ├── templates/
+│   │   ├── Museum/
+│   │   │   └── index.html
+│   │   └── chatbot/
+│   │       └── index.html
+│   └── tests/
+│       ├── __init__.py
+│       └── test_main.py
+├── docker-compose.yml
+├── notes.txt
+├── rasa/
+│   ├── Dockerfile.rasa
+│   ├── Dockerfile.rasa_sdk
+│   ├── actions/
+│   │   ├── __init__.py
+│   │   ├── __pycache__/
+│   │   │   ├── __init__.cpython-310.pyc
+│   │   │   └── actions.cpython-310.pyc
+│   │   └── actions.py
+│   ├── config.yml
+│   ├── credentials.yml
+│   ├── data/
+│   │   ├── nlu.yml
+│   │   ├── rules.yml
+│   │   └── stories.yml
+│   ├── domain.yml
+│   ├── endpoints.yml
+│   ├── entrypoint.sh
+│   ├── models/
+│   │   ├── 20240908-133035-steel-tray.tar.gz
+│   │   ├── 20240909-062524-quiet-static.tar.gz
+│   │   ├── 20240911-022015-vicious-credits.tar.gz
+│   │   └── 20240911-022258-chill-packet.tar.gz
+│   ├── requirements.txt
+│   └── tests/
+│       └── test_stories.yml
+└── tests/
+    ├── __init__.py
+    └── test_fastapi.py
+```
+- app/: Contains the FastAPI application and its Dockerfile.
+- rasa/: Contains the Rasa and Rasa SDK components and their Dockerfiles.
+- docker-compose.yml: Defines the services and their configurations.
+- notes.txt: Additional notes or documentation.
+- tests/: Contains test files for FastAPI and Rasa.
+## Configuration
+### Environment Variables
+- FastAPI: DATABASE_URL should be set to postgresql://musebot_admin:musebot_2024@postgres/musebot_db.
+### Volumes
+PostgreSQL data is persisted using Docker volumes to ensure data is retained across container restarts.
+## Troubleshooting
+- **Containers Not Starting**: Ensure Docker and Docker Compose are correctly installed. Check logs using docker-compose logs for more information.
+- **Connection Issues**: Verify the ports are correctly mapped and no other services are using the same ports.
 
-- **Potential Impact on the Target Audience**:  
-  MuseBot will improve user satisfaction by offering a streamlined and multilingual ticketing experience, quick access to information via QR codes, and responsive design for mobile use. It will also enhance operational efficiency by automating interactions.
-
-- **Benefits of the Solution**:  
-  - **Social**: Provides an accessible and user-friendly interface with quick access through QR codes
-  - **Economic**: Reduces operational costs and errors
-  - **Environmental**: Minimizes paper waste with digital ticketing
-
----
-
-## RESEARCH AND REFERENCES
-
-- **Details/Links of the Reference and Research Work**:  
-  - [FastAPI documentation](https://fastapi.tiangolo.com/)
-  - [SQLAlchemy documentation](https://docs.sqlalchemy.org/)
-  - [Alembic documentation](https://alembic.sqlalchemy.org/)
-  - [Razorpay API documentation](https://razorpay.com/docs/)
-  - [Google Translate API Extended documentation](https://www.jsdelivr.com/package/npm/google-translate-api-extended)
-  - [Google Translate API documentation](https://cloud.google.com/translate/docs)
+## Additional Resources
+- [Docker Documentation](https://docs.docker.com/)
+- [Docker Compose Documentation](https://docs.docker.com/compose/)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [Rasa Documentation](https://rasa.com/docs/)
