@@ -51,7 +51,8 @@ services:
     ports:
       - "5055:5055"
     volumes:
-      - ./rasa:/app
+      - ./rasa/actions:/app/actions
+      - ./rasa/endpoints.yml:/app/endpoints.yml
     restart: always
 
 volumes:
