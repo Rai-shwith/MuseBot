@@ -22,3 +22,12 @@ EXPOSE 5005
 
 # Run Rasa server
 CMD [ "run", "--enable-api", "--cors", "*" ,"--debug"]
+
+# Run this command to train a new model
+# CMD [ "train" ]
+
+# Run this command to start the shell
+# CMD [ "shell" ]
+
+# Run this command to start the interactive training session
+# CMD [ "interactive" ]
