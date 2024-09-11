@@ -1,7 +1,7 @@
 # Use the official Rasa SDK image
-FROM rasa/rasa-sdk:3.6.2
+FROM rasa/rasa-sdk:3.6.0
 
-# Temporarily switch to root to add group and user
+# switch to root to add group and user
 USER root
 
 # Create the group and user
@@ -9,13 +9,16 @@ RUN groupadd -g 1000 musebot_group && \
     useradd -u 1000 -g musebot_group -m musebot_user
 
 # Set the working directory and copy Rasa project files
-COPY --chown=musebot_user:musebot_group . /app
+COPY --chown=musebot_user:musebot_group ./actions /app/actions
+COPY --chown=musebot_user:musebot_group ./endpoints.yml /app/endpoints.yml
+COPY --chown=musebot_user:musebot_group ./entrypoint.sh /app/entrypoint.sh
 
 # Ensure the entrypoint script is executable
 RUN chmod +x /app/entrypoint.sh
 
 # Set the entrypoint to the script
 ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
+# ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Switch to the new user
 USER musebot_user
@@ -28,4 +31,4 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 EXPOSE 5055
 
 # Run the Rasa SDK action server
-CMD ["start"]
+CMD ["run","python","-m","rasa_sdk","--actions","actions"]
