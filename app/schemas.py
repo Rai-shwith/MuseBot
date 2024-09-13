@@ -4,7 +4,7 @@ from typing import Union
 class UserCreate(BaseModel):
     name : str
     email : str
-    phone_number : int
+    phone_number : str
     gender:str
     
     class Config:
