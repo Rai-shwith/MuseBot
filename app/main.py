@@ -1,6 +1,8 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends,HTTPException,status
 from database import get_db,Base,engine
+from sqlalchemy.exc import IntegrityError
 import schemas,models
+import json
 
 app = FastAPI()
 
@@ -23,7 +25,7 @@ def create_user(user:schemas.UserCreate,db=Depends(get_db)):
         new_user = models.User(**user.model_dump())
         db.add(new_user)
         db.commit()
-    except Exception as e:
-        return {"error": e}
+    except IntegrityError as e:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,detail=str(e.orig))
     db.refresh(new_user)
     return new_user
