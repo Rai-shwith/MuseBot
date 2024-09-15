@@ -14,8 +14,8 @@ Before you begin, ensure you have the following installed:
 First, clone the Musbot repository from GitHub:
 
 ```bash
-git clone https://github.com/your-username/musbot.git
-cd musbot
+git clone https://github.com/Rai-shwith/MuseBot.git
+cd MuseBot
 ```
 ### 2. Build and Start Containers
 Navigate to the project directory and use Docker Compose to build and start the containers:
